@@ -1,0 +1,23 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Dashboard en Tiempo Real</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/7.0.5/signalr.min.js"></script>
+</head>
+<body>
+    <h1>📊 Métricas en tiempo real</h1>
+    <div id="data-container"></div>
+
+    <script>
+    const connection = new signalR.HubConnectionBuilder()
+        .withUrl("/dashboardHub")
+        .build();
+
+    connection.on("ReceiveMetrics", data => {
+        document.getElementById("data-container").innerText = `Valor actual: ${data}`;
+    });
+
+    connection.start().catch(err => console.error(err));
+    </script>
+</body>
+</html>
